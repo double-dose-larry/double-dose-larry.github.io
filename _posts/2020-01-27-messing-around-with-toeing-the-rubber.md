@@ -38,6 +38,18 @@ some descriptive stats to set the context:
 
 Nice and simple pitch mix, perfect for exploration.
 
-Here's a couple of examples that we can use to guide us:
+Here's a couple of examples that we can use to guide us, these I've found from my prior research:
 
-* [extreme right]
+* [extreme right](https://sporty-clips.mlb.com/35baefdf-5d49-4691-b891-cfcb25d9cd20.mp4) - @ Houston 8/28/2019
+* [to the left](https://sporty-clips.mlb.com/c2fb72c1-a255-468e-baa8-16955d51107b.mp4) - Baltimore 7/01/2019
+
+Clearly you can see that there's a lot of traveling on the mound.
+
+Luckily Statcast has as a feature for just this, called [realease_position_x](https://baseballsavant.mlb.com/csv-docs#release_pos_x) which is
+
+> Horizontal Release Position of the ball measured in feet from the catcher's perspective.
+
+This measure is 0 if the release point is exactly down the middle from the center of the plate extended to the pitcher mound. Let's just ignore the fact that the pitcher's arm slot can change with each pitch, or for different types of pitches and assume that Drake delivers the ball exactly the same every time. Obviously this is a real consideration, but I'm not trying to write a paper here, I'm just fucking around.
+
+Anyway, now that we have a measure to go of off, let's see how those 900 or so pitches thrown in 2019 shape up when it comes to "release_pos_x". In the below chart I grouped the release_pos_x into 5 bins to see how many pitches were thrown from each relative position
+
