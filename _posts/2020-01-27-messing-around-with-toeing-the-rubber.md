@@ -54,7 +54,7 @@ Drake throws most of his pitches from the extreeme right side of the mound(from 
 
 ![gif](https://gfycat.com/naturalgreathorsemouse-baseball)
 
-What we also see is that there's a different distribution between his fastball release and his spiltter release. I'm assuming this has something to do with his arm slot being different for each type of pitch. For the sake of simplicity, we'll just one pitch, his splitter, and drill down on that.
+What we also see is that there's a different distribution between his fastball release and his spiltter release. I'm assuming this has something to do with his arm slot being different for each type of pitch. 
 
 Let's just ignore the fact that the pitcher's arm slot can change with each pitch and assume that Drake delivers his splitter exactly the same every time. Obviously this is a real consideration, but I'm not trying to write a paper here, I'm just fucking around.
 
