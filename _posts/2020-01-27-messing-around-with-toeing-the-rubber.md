@@ -99,13 +99,28 @@ Do the same thing, but for each month:
 
 [img](boxplot september)
 
-What's interesting here is that it doesn't appear to be a mid season adjustment, but rather a strategy employed on certain occasions.
+Now we're getting somewhere. July seems to have the most outliers. let's take a look at the batters faced in July
 
-* Is the pitcher more successful in one position or another?
+[table of batters]
 
-Unfortunatley I don't think we can answer this question very well. There are just too few pitches thrown from the "non-normal" starting positon.
 
-For what it's worth here are some stats on those pitches.
+What do they have in common? That's right they're right handers!
+
+plotting this another way confirms it. let's plot the average release_pos_x by month and batter handidness. 
+
+[img](plot)
+
+And there it is! Oliver Drake toed the rubber differently for righties in July of last year. Clearly he abandoned it quickly, going back to his extreeme right side starting position.
+
+Why? Because it didn't work.
+
+Looking at his [spilts against righties around that time](https://www.fangraphs.com/players/oliver-drake/8823/splits-tool?position=P&splitArr=6&strgroup=month&statgroup=1&startDate=2019-05-26&endDate=2019-09-27&filter=&statType=player&autoPt=true&players=&sort=NaN,1) we see that in the 38 righties faced in Jun he gave up 5 earned runs and 5 walks. Not good, hence the adjustment. Then in the month of July he gave up **6** runs and **5** walks in only **16** righties faced. That's atrocious. I wonder what other tweaks were made after, because he was able to handle righties pretty decently August and on.
+
+What ever it was I hope he continues to develop and work on it because his numbers against lefties are [*elite*](https://www.fangraphs.com/players/oliver-drake/8823/splits-tool?position=P&splitArr=5&strgroup=month&statgroup=1&startDate=2019-05-26&endDate=2019-09-27&filter=&statType=player&autoPt=true&players=&sort=NaN,1) and with the new 3 batter minimum rule going into effect in 2020, I'm looking for Drake to be a goto weapon for Cash during the season.
+
+I'm not sure how much enjoyement you got out of this journey, dear reader, but for me this was delightful. For one, I learned that pitchers change positions per at bat. I knew anecodetly, pitchers talk about making adjustments through out the season all the time, I just never seen one so clearly laid out as this. Also super interesting is that this strategy was abandoned after a few tries.
+
+
 
 
 
