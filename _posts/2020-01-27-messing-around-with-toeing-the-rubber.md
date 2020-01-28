@@ -46,13 +46,13 @@ This measure is 0 if the release point is exactly down the middle from the cente
 
 It's nice that Drake throws only to pitches, because we can plot them over each other and not get too cluttered.
 
-If we bin the relase_pos_x into a few buckets and plot the frequencies we start to see a picture.
+If we bin the relase_pos_x into a few buckets and plot the frequencies we start to see a picture. The bins are 1/2 foot intervals, starting from a little off to the left of the center of the plate and going to all the way to 2 feet to the right.
 
-[img](link to pitch freq chart)
+![frequency bins](https://raw.githubusercontent.com/double-dose-larry/jup_notebooks_baseball/master/2019-01-28-drake/oliver_drake_release_pos_x.jpg)
 
 Drake throws most of his pitches from the extreeme right side of the mound(from the catcher's perspective). That's kinda interesting right. I wonder how he compares to other right handers; is he an outlier, or is this something that's pretty common (something for another analysis). I know from watching my boy that he's like a lefty in disguise. His splitter, which can be so nasty, has very similar action as a lefty throwing a slider. 
 
-[gif](link to nasty Drake splitter gif)
+![gif](https://gfycat.com/naturalgreathorsemouse-baseball)
 
 What we also see is that there's a different distribution between his fastball release and his spiltter release. I'm assuming this has something to do with his arm slot being different for each type of pitch. For the sake of simplicity, we'll just one pitch, his splitter, and drill down on that.
 
