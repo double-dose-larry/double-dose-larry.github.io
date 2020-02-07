@@ -37,7 +37,7 @@ df = pd.read_html(url)[0]
 
 Booya! here is what it looks like:
 
-[!scraped data](https://i.imgur.com/kyqte5z.png)
+![scraped data](https://i.imgur.com/kyqte5z.png)
 
 Beautiful, isn't it.
 
