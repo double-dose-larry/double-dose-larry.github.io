@@ -13,7 +13,7 @@ One issue with scraping from the wild wild web is that the 'table', that holds t
 
 Every table on baseball-refernce.com comes with a few options hidden in the 'Share & more' menu. In this dropdown menu you'll see a few options, including export options to CSV and Excel. But that's not what we are looking for. What we are looking for is the 'Embed this Table' option.
 
-![Share & more dropdown](https://imgur.com/a/ibyiAbh)
+![Share & more dropdown](https://i.imgur.com/P2CBkiJ.png)
 
 Once you click on that you'll get a popup with some html code to embed the table in on a website some where. I've never actually used that for it's intended purpose... wait... this is a website, let's see what it does.
 
@@ -37,7 +37,7 @@ df = pd.read_html(url)[0]
 
 Booya! here is what it looks like:
 
-[!scraped data](https://imgur.com/a/qTMt0w1)
+[!scraped data](https://i.imgur.com/kyqte5z.png)
 
 Beautiful, isn't it.
 
@@ -67,7 +67,7 @@ And now we have a prestine DataFrame to work with. We can do some fun analysis a
 df.sort_values("Luck").plot(x="Tm", y="Luck", kind="barh", legend=None, figsize=(10,10), title="Team Luck in 1928")
 ```
 
-![Luck Chart](https://imgur.com/a/ufTTegr)
+![Luck Chart](https://i.imgur.com/egoTRQI.png)
 
 
 Join me next time when we expand on this concept and attempt scrape 10 years of Tampa Bays line ups with  10 lines of code.
