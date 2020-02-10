@@ -5,9 +5,7 @@ title: Scraping baseball-reference with pandas
 date: '2020-02-07'
 ---
 
-I've had lot fun with baseball-reference.com. I mean *A LOT*. I once spent 3 hours looking through the starting line ups of the 1928 season. For a baseball nerd, it's so much fun. You can download all the tables as Excel files and really have some fun.
-
-But I've graduted from excel and now do most of my analysis, as bad as it is, with Python and the pandas library. One of the most underated features of pandas, I think, is it's ability to hoover up a table into a DataFrame. This ability applies to almost any format that you would find structured data in: CSV, SQL, Excel, xml and, most important for us, html. It makes things so much easier than the typcical BeautifulSoup -> table -> do a bunch of work to create a DataFrame of yester-year. I mean it's the same workflow, it's just mostly automated by pandas. 
+I've graduted from excel and now do most of my analysis, as bad as it is, with Python and the pandas library. One of the most underated features of pandas, I think, is it's ability to hoover up a table into a DataFrame. This ability applies to almost any format that you would find structured data in: CSV, SQL, Excel, xml and, most important for us, html. It makes things so much easier than the typcical BeautifulSoup -> table -> do a bunch of work to create a DataFrame of yester-year. I mean it's the same workflow, it's just mostly automated by pandas. 
 
 One issue with scraping from the wild wild web is that the 'table', that holds the structured data, is not always transparant in the DOM structure of the website. This is where pandas would stumble. But, fear not dear reader, for I have the secret to making scraping baseball-reference.com, and really any sports-reference.com page, a breeze. 
 
