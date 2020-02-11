@@ -54,9 +54,10 @@ pd.read_html(url)[0].query('Tm != "Tm"').drop('Unnamed: 2', axis=1).rename(colum
 
 One additional thing to consider here is the data types of each column. pandas generally does a good job of recognizing when columns are supposed to be numbers or dates instead of strings, but in our case, it doesn't. I suspect that the additional header columns that we end up dropping. We want the numerical columns, like R and RA, to be numbers so that we can do math with them. There are several ways to approach this problem, including using [astype](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.astype.html#pandas.DataFrame.astype) and [convert_dtypes](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.convert_dtypes.html?highlight=dtypes#pandas.DataFrame.convert_dtypes), but I'm going to share with you my favorite way, that works almost every time as expected, for me anyway.
 
-The approach is to use a pandas function called [to_numeric](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_numeric.html) that smartly converts strings to numbers. What we are going to do is [apply](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.apply.html) to_numeric across our entire data frame. The issue is that to_numeric need to have an additional parameter: errors="ignore", otherwise it will raise an error every time it runs into a string that can't be converted. apply doesn't let you pass parameters along with the function, so we need to "pre-load" that parameter using `partial` from the `functools` library. If this sounds like mumbo jumbo to you, don't worry, all you have to do is copy the code and run it. It should work pretty much every time.
+The approach is to use a pandas function called [to_numeric](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_numeric.html) that smartly converts strings to numbers. What we are going to do is [apply](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.apply.html) to_numeric across our entire data frame. The issue is that to_numeric need to have an additional keyword argument: `errors="ignore"`, otherwise it will raise an error every time it runs into a string that can't be converted. apply doesn't let you pass parameters along with the function, so we need to "pre-load" that parameter using `partial` from the `functools` library. If this sounds like mumbo jumbo to you, don't worry, all you have to do is copy the code and run it. It should work pretty much every time.
 
 ```python
+from functools import partial
 pd.read_html(url)[0].query('Tm != "Tm"').drop('Unnamed: 2', axis=1).rename(columns={'Unnamed: 4' : 'H/A'}).apply(partial(pd.to_numeric, errors='ignore'))
 ```
 
@@ -121,4 +122,4 @@ df = pd.concat([ tb_game_logs(yr) for yr in range(2009,2020)])
 
 That's it. Without the comments, that's 9 lines of code, not too shabby.
 
-
+What's **really** cool is that this approach would work for almost *anything* on baseball-reference.com. Once you know what to look for, it's easy to spot the parts of the url that you need to change in order to get the next season's data, or the next team's data or whatever else.
