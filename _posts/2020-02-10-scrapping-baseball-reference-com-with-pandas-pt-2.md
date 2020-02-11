@@ -2,6 +2,7 @@
 layout: post
 published: true
 title: Scrapping baseball-reference.com with pandas pt. 2
+image: 'https://d2p3bygnnzw9w3.cloudfront.net/req/202001301/logos/br-logo.svg'
 ---
 
 [In the last installment](https://double-dose-larry.github.io/2020-02-07-scraping-baseball-reference-with-pandas/) we went over how to grab clean data from baseball-reference.com with, essentially, one line of code. Now, let's expand on that concept and see how we can use pandas to and Python to do some heavy-duty scraping. For this exapmle we'll scrape the game logs of my favorite team, the Tampa Bay Rays. The data table for each season is located on the "Schedule & Results" page for that season. For example here is the url for the page that contains the 2019 season game logs:
