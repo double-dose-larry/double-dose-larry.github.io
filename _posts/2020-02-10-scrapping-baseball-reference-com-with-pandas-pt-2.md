@@ -49,8 +49,8 @@ If you look at the table on the website, you can see that the column containing 
 
 ```python
 pd.read_html(url)[0].query('Tm != "Tm"')\
-	.drop('Unnamed: 2', axis=1)\
-	.rename(columns={'Unnamed: 4' : 'H/A'})
+    .drop('Unnamed: 2', axis=1)\
+    .rename(columns={'Unnamed: 4' : 'H/A'})
 ```
 
 ### Fix Datatypes
@@ -62,9 +62,9 @@ The approach is to use a pandas function called [to_numeric](https://pandas.pyda
 ```python
 from functools import partial
 pd.read_html(url)[0].query('Tm != "Tm"')\
-	.drop('Unnamed: 2', axis=1)\
+    .drop('Unnamed: 2', axis=1)\
     .rename(columns={'Unnamed: 4' : 'H/A'})\
-	.apply(partial(pd.to_numeric, errors='ignore'))
+    .apply(partial(pd.to_numeric, errors='ignore'))
 ```
 
 Now we have a prestine data frame off all the game logs for our Tampa Bay Rays 2019 season scraped, in one line of code, no less.
@@ -74,11 +74,11 @@ Before we go on, let's do something quick and fun with this.
 ```python
 df["H/A"] = df["H/A"].fillna("H")
 df.groupby(["Gm#","H/A"])\
-	.Attendance.sum()\
-	.unstack()\
-	.plot(kind="area", 
-    	  figsize=(20,10), 
-          rot=0, 
+    .Attendance.sum()\
+    .unstack()\
+    .plot(kind="area",
+          figsize=(20,10),
+          rot=0,
           title="TB Attendance 2019 Home vs Away"))
 ```
 
@@ -92,15 +92,14 @@ Since we're going to be spanning different years, let's have our function take t
 
 ```python
 def tb_game_logs(year):
-	print("getting year", year)
-    
+    print("getting year", year)
     url = f"https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fteams%2FTBR%2F{year}-schedule-scores.shtml&div=div_team_schedule"
     
     df = pd.read_html(url)[0]\
-			.query('Tm != "Tm"')\
-			.drop('Unnamed: 2', axis=1)\
-			.rename(columns={'Unnamed: 4' : 'H/A'})\
-			.apply(partial(pd.to_numeric, errors='ignore'))
+           .query('Tm != "Tm"')\
+           .drop('Unnamed: 2', axis=1)\
+           .rename(columns={'Unnamed: 4' : 'H/A'})\
+           .apply(partial(pd.to_numeric, errors='ignore'))
             
     df["year"] = year
     return df
@@ -133,10 +132,10 @@ def tb_game_logs(year):
     url = f"https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fteams%2FTBR%2F{year}-schedule-scores.shtml&div=div_team_schedule"
     # get and clean data from bref
     df = pd.read_html(url)[0]\
-			.query('Tm != "Tm"')\
-			.drop('Unnamed: 2', axis=1)\
-			.rename(columns={'Unnamed: 4' : 'H/A'})\
-			.apply(partial(pd.to_numeric, errors='ignore'))
+           .query('Tm != "Tm"')\
+           .drop('Unnamed: 2', axis=1)\
+           .rename(columns={'Unnamed: 4' : 'H/A'})\
+           .apply(partial(pd.to_numeric, errors='ignore'))
     # add year to the dataframe
     df["year"] = year
     return df
