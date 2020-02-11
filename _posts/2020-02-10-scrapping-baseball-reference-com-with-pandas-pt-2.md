@@ -1,11 +1,11 @@
 ---
 layout: post
 published: true
-title: Scrapping baseball-reference.com with pandas pt. 2
+title: Scraping baseball-reference.com with pandas pt. 2
 image: 'https://d2p3bygnnzw9w3.cloudfront.net/req/202001301/logos/br-logo.svg'
 ---
 
-[In the last installment](https://double-dose-larry.github.io/2020-02-07-scraping-baseball-reference-with-pandas/) we went over how to grab clean data from baseball-reference.com with, essentially, one line of code. Now, let's expand on that concept and see how we can use pandas to and Python to do some heavy-duty scraping. For this exapmle we'll scrape the game logs of my favorite team, the Tampa Bay Rays. The data table for each season is located on the "Schedule & Results" page for that season. For example here is the url for the page that contains the 2019 season game logs:
+[In the last installment](https://double-dose-larry.github.io/2020-02-07-scraping-baseball-reference-with-pandas/) we went over how to grab clean data from baseball-reference.com with, essentially, one line of code. Now, let's expand on that concept and see how we can use pandas and Python to do some heavy-duty scraping. For this exapmle we'll scrape the game logs of my favorite team, the Tampa Bay Rays. The data table for each season is located on the "Schedule & Results" page for that season. For example here is the url for the page that contains the 2019 season game logs:
 
 https://www.baseball-reference.com/teams/TBR/2019-schedule-scores.shtml
 
@@ -48,18 +48,23 @@ pd.read_html(url)[0].query('Tm != "Tm"')
 If you look at the table on the website, you can see that the column containing the link to the boxscore and the column that designates an away game (with an @) aren't named. pandas helpfully names these for us as 'Unnamed: 2' and 'Unnamed: 4'. Now we don't need the boxscore column, so we can drop that, but we might want to hold on to the 'home or away' column. Here's how I would do it:
 
 ```python
-pd.read_html(url)[0].query('Tm != "Tm"').drop('Unnamed: 2', axis=1).rename(columns={'Unnamed: 4' : 'H/A'})
+pd.read_html(url)[0].query('Tm != "Tm"')\
+	.drop('Unnamed: 2', axis=1)\
+    .rename(columns={'Unnamed: 4' : 'H/A'})
 ```
 
 ### Fix Datatypes
 
-One additional thing to consider here is the data types of each column. pandas generally does a good job of recognizing when columns are supposed to be numbers or dates instead of strings, but in our case, it doesn't. I suspect that the additional header columns that we end up dropping. We want the numerical columns, like R and RA, to be numbers so that we can do math with them. There are several ways to approach this problem, including using [astype](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.astype.html#pandas.DataFrame.astype) and [convert_dtypes](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.convert_dtypes.html?highlight=dtypes#pandas.DataFrame.convert_dtypes), but I'm going to share with you my favorite way, that works almost every time as expected, for me anyway.
+One additional thing to consider here is the data types of each column. pandas generally does a good job of recognizing when columns are supposed to be numbers or dates instead of strings, but in our case, it doesn't. I suspect that the additional header columns that we end up dropping are the culprit. We want the numerical columns, like R and RA, to be numbers so that we can do math with them. There are several ways to approach this problem, including using [astype](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.astype.html#pandas.DataFrame.astype) and [convert_dtypes](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.convert_dtypes.html?highlight=dtypes#pandas.DataFrame.convert_dtypes), but I'm going to share with you my favorite way, that works almost every time as expected, for me anyway.
 
-The approach is to use a pandas function called [to_numeric](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_numeric.html) that smartly converts strings to numbers. What we are going to do is [apply](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.apply.html) to_numeric across our entire data frame. The issue is that to_numeric need to have an additional keyword argument: `errors="ignore"`, otherwise it will raise an error every time it runs into a string that can't be converted. apply doesn't let you pass parameters along with the function, so we need to "pre-load" that parameter using `partial` from the `functools` library. If this sounds like mumbo jumbo to you, don't worry, all you have to do is copy the code and run it. It should work pretty much every time.
+The approach is to use a pandas function called [to_numeric](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_numeric.html) that smartly converts strings to numbers. What we are going to do is [apply](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.apply.html) to_numeric across our entire data frame. The issue is that to_numeric needs to have an additional keyword argument: `errors="ignore"`, otherwise it will raise an error every time it runs into a string that can't be converted. apply doesn't let you pass keyword args along with the function, so we need to "pre-load" that parameter using `partial` from the `functools` library. If this sounds like mumbo jumbo to you, don't worry, all you have to do is copy the code and run it. It should work pretty much every time.
 
 ```python
 from functools import partial
-pd.read_html(url)[0].query('Tm != "Tm"').drop('Unnamed: 2', axis=1).rename(columns={'Unnamed: 4' : 'H/A'}).apply(partial(pd.to_numeric, errors='ignore'))
+(pd.read_html(url)[0].query('Tm != "Tm"')
+	.drop('Unnamed: 2', axis=1)
+    .rename(columns={'Unnamed: 4' : 'H/A'})
+    .apply(partial(pd.to_numeric, errors='ignore')))
 ```
 
 Now we have a prestine data frame off all the game logs for our Tampa Bay Rays 2019 season scraped, in one line of code, no less.
@@ -68,7 +73,13 @@ Before we go on, let's do something quick and fun with this.
 
 ```python
 df["H/A"] = df["H/A"].fillna("H")
-df.groupby(["Gm#","H/A"]).Attendance.sum().unstack().plot(kind="area", figsize=(20,10), rot=0, title="TB Attendance 2019 Home vs Away")
+(df.groupby(["Gm#","H/A"])
+	.Attendance.sum()
+    .unstack()
+    .plot(kind="area", 
+    	  figsize=(20,10), 
+          rot=0, 
+          title="TB Attendance 2019 Home vs Away"))
 ```
 
 ![home vs away attendance](https://i.imgur.com/CYOebe7.png)
@@ -113,7 +124,13 @@ from functools import partial
 def tb_game_logs(year):
     print("getting year", year)
     url = f"https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fteams%2FTBR%2F{year}-schedule-scores.shtml&div=div_team_schedule"
-    df = pd.read_html(url)[0].query('Tm != "Tm"').drop('Unnamed: 2', axis=1).rename(columns={'Unnamed: 4' : 'H/A'}).apply(partial(pd.to_numeric, errors='ignore'))
+    # get and clean data from bref
+    df = (pd.read_html(url)[0]
+            .query('Tm != "Tm"')
+        	.drop('Unnamed: 2', axis=1)
+        	.rename(columns={'Unnamed: 4' : 'H/A'})
+        	.apply(partial(pd.to_numeric, errors='ignore')))
+    # add year to the dataframe
     df["year"] = year
     return df
 
