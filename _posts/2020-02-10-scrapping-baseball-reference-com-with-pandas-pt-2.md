@@ -7,9 +7,9 @@ image: 'https://d2p3bygnnzw9w3.cloudfront.net/req/202001301/logos/br-logo.svg'
 
 [In the last installment](https://double-dose-larry.github.io/2020-02-07-scraping-baseball-reference-with-pandas/) we went over how to grab clean data from baseball-reference.com with, essentially, one line of code. Now, let's expand on that concept and see how we can use pandas and Python to do some heavy-duty scraping. For this exapmle we'll scrape the game logs of my favorite team, the Tampa Bay Rays. The data table for each season is located on the "Schedule & Results" page for that season. For example here is the url for the page that contains the 2019 season game logs:
 
-https://www.baseball-reference.com/teams/TBR/2019-schedule-scores.shtml
+[https://www.baseball-reference.com/teams/TBR/2019-schedule-scores.shtml](https://www.baseball-reference.com/teams/TBR/2019-schedule-scores.shtml)
 
-As you can see, there is a structure to the url that we'll use to our advantage. While we won't use this url, we'll be using the embed url that we learned about in the [previous post](), the two urls are similar and it's much clearer to the human eye to see the structure here. Basically, if we want to grab the data from any other year, we'll just need to change the '2019' in the url to the year that we want. 
+As you can see, there is a structure to the url that we'll use to our advantage. While we won't use this url, we'll be using the embed url that we learned about in the previous post, the two urls are similar and it's much clearer to the human eye to see the structure here. Basically, if we want to grab the data from any other year, we'll just need to change the '2019' in the url to the year that we want. 
 
 Before we put down some code, let's go grab the embed url that we'll be working with.
 
@@ -50,7 +50,7 @@ If you look at the table on the website, you can see that the column containing 
 ```python
 pd.read_html(url)[0].query('Tm != "Tm"')\
 	.drop('Unnamed: 2', axis=1)\
-    .rename(columns={'Unnamed: 4' : 'H/A'})
+	.rename(columns={'Unnamed: 4' : 'H/A'})
 ```
 
 ### Fix Datatypes
@@ -61,10 +61,10 @@ The approach is to use a pandas function called [to_numeric](https://pandas.pyda
 
 ```python
 from functools import partial
-(pd.read_html(url)[0].query('Tm != "Tm"')
-	.drop('Unnamed: 2', axis=1)
-    .rename(columns={'Unnamed: 4' : 'H/A'})
-    .apply(partial(pd.to_numeric, errors='ignore')))
+pd.read_html(url)[0].query('Tm != "Tm"')\
+	.drop('Unnamed: 2', axis=1)\
+    .rename(columns={'Unnamed: 4' : 'H/A'})\
+	.apply(partial(pd.to_numeric, errors='ignore'))
 ```
 
 Now we have a prestine data frame off all the game logs for our Tampa Bay Rays 2019 season scraped, in one line of code, no less.
@@ -73,10 +73,10 @@ Before we go on, let's do something quick and fun with this.
 
 ```python
 df["H/A"] = df["H/A"].fillna("H")
-(df.groupby(["Gm#","H/A"])
-	.Attendance.sum()
-    .unstack()
-    .plot(kind="area", 
+df.groupby(["Gm#","H/A"])\
+	.Attendance.sum()\
+	.unstack()\
+	.plot(kind="area", 
     	  figsize=(20,10), 
           rot=0, 
           title="TB Attendance 2019 Home vs Away"))
@@ -93,8 +93,15 @@ Since we're going to be spanning different years, let's have our function take t
 ```python
 def tb_game_logs(year):
 	print("getting year", year)
+    
     url = f"https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fteams%2FTBR%2F{year}-schedule-scores.shtml&div=div_team_schedule"
-    df = pd.read_html(url)[0].query('Tm != "Tm"').drop('Unnamed: 2', axis=1).rename(columns={'Unnamed: 4' : 'H/A'}).apply(partial(pd.to_numeric, errors='ignore'))
+    
+    df = pd.read_html(url)[0]\
+			.query('Tm != "Tm"')\
+			.drop('Unnamed: 2', axis=1)\
+			.rename(columns={'Unnamed: 4' : 'H/A'})\
+			.apply(partial(pd.to_numeric, errors='ignore'))
+            
     df["year"] = year
     return df
 ```
@@ -125,11 +132,11 @@ def tb_game_logs(year):
     print("getting year", year)
     url = f"https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fteams%2FTBR%2F{year}-schedule-scores.shtml&div=div_team_schedule"
     # get and clean data from bref
-    df = (pd.read_html(url)[0]
-            .query('Tm != "Tm"')
-        	.drop('Unnamed: 2', axis=1)
-        	.rename(columns={'Unnamed: 4' : 'H/A'})
-        	.apply(partial(pd.to_numeric, errors='ignore')))
+    df = pd.read_html(url)[0]\
+			.query('Tm != "Tm"')\
+			.drop('Unnamed: 2', axis=1)\
+			.rename(columns={'Unnamed: 4' : 'H/A'})\
+			.apply(partial(pd.to_numeric, errors='ignore'))
     # add year to the dataframe
     df["year"] = year
     return df
