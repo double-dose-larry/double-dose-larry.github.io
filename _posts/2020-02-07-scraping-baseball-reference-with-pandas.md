@@ -3,6 +3,7 @@ layout: post
 published: true
 title: Scraping baseball-reference with pandas
 date: '2020-02-07'
+image: 'https://d2p3bygnnzw9w3.cloudfront.net/req/202001301/logos/br-logo.svg'
 ---
 
 I've graduted from excel and now do most of my analysis, as bad as it is, with Python and the pandas library. One of the most underated features of pandas, I think, is it's ability to hoover up a table into a DataFrame. This ability applies to almost any format that you would find structured data in: CSV, SQL, Excel, xml and, most important for us, html. It makes things so much easier than the typcical BeautifulSoup -> table -> do a bunch of work to create a DataFrame of yester-year. I mean it's the same workflow, it's just mostly automated by pandas. 
