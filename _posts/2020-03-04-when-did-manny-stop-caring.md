@@ -1,6 +1,6 @@
 ---
 layout: post
-published: false
+published: true
 title: When did Manny stop caring?
 ---
 If a chart has two y-axis it makes it twice as accurate, right?
